@@ -18,6 +18,10 @@ jobs:
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CRED }}
+    - name: Register Azure Resource Providers
+        run: |
+          az provider register --namespace Microsoft.Web --wait
+          az provider register --namespace Microsoft.Storage --wait
 
       - name: Terraform Init
         working-directory: Terraform
