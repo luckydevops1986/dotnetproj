@@ -22,7 +22,7 @@ resource "azurerm_service_plan" "nfwebplan" {
   name                = var.asp_name
   location            = azurerm_resource_group.nfrg.location
   resource_group_name = azurerm_resource_group.nfrg.name
-  os_type             = "windows"
+  os_type             = "Windows"
   sku_name            = "B1"
   
 }
