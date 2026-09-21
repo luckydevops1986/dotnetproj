@@ -1,7 +1,7 @@
 variable "resource_group_name" {
-    description = "The name of the resource group where the resources will be created."
+    description = "The name of the resource"
     type        = string
-    default = "nfrg"
+    default = "rg-netflix"
  
 }
 
@@ -13,9 +13,9 @@ variable "location" {
 
 variable "asp_name" {
     type        = string
-    default    = "aspnetflix"
+    default    = "asp-netflix"
 }
 variable "webapp" {
     type        = string
-    default     = "nfapp"
+    default     = "webapp-netflix1986"
 }
