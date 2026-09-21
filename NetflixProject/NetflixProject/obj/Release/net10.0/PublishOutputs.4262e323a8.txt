@@ -1,0 +1,7 @@
+C:\dotnetproj\NetflixProject\Publish\NetflixProject.exe
+C:\dotnetproj\NetflixProject\Publish\appsettings.Development.json
+C:\dotnetproj\NetflixProject\Publish\appsettings.json
+C:\dotnetproj\NetflixProject\Publish\NetflixProject.dll
+C:\dotnetproj\NetflixProject\Publish\NetflixProject.deps.json
+C:\dotnetproj\NetflixProject\Publish\NetflixProject.runtimeconfig.json
+C:\dotnetproj\NetflixProject\Publish\NetflixProject.pdb
