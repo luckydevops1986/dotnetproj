@@ -1,57 +1,47 @@
 name: Terraform Infra + Deploy dotnet app
-
 on:
   workflow_dispatch:
-
 jobs:
-  terraform-deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Azure Login
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CRED }}
-
-    - name: Register Azure Resource Providers
-            run: |
-                az provider register --namespace Microsoft.Web --wait
-                az provider register --namespace Microsoft.Storage --wait
-
-      - name: Terraform Init
-        working-directory: Terraform
-        run: terraform init
-
-      - name: Terraform Apply
-        working-directory: Terraform
-        run: terraform apply -auto-approve
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 10.0.x
-
-      - name: Restore dependencies
-        working-directory: NetflixProject
-        run: dotnet restore
-
-      - name: Build
-        working-directory: NetflixProject
-        run: dotnet build --configuration Release
-
-      - name: Publish
-        working-directory: NetflixProject
-        run: dotnet publish --configuration Release --output ./publish
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ steps.terraform.outputs.webapp_name }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ./NetflixProject/publish
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                terraform_version: 1.7.6
+            - name: azure login
+              uses: azure/login@v1
+              with:
+                creds: ${{ secrets.AZURE_CRED}}
+            - name: Terraform Init
+              run: |
+                cd Terraform
+                terraform init
+            - name: Terraform Plan
+              run: |
+                cd Terraform
+                terraform plan
+                terraform apply -auto-approve
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v6
+              with:
+                dotnet-version: 10.0.x
+            - name: Restore dependencies
+              run: |
+                cd NetflixProject
+                dotnet restore
+            - name: Build
+              run: |
+                cd NetflixProject
+                dotnet build --configuration Release
+            - name: Publish
+              run: |
+                cd NetflixProject
+                dotnet Publish -c Release -o ./Publish
+            - name: Deploy to Azure Web App
+              uses: azure/webapps-deploy@v2
+              with:
+                app-name: webapp-netflix1986
+                package: ./NetflixProject/Publish

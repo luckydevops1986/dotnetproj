@@ -3,5 +3,5 @@ output "webapp_name" {
 }
 
 output "webapp_url" {
-  value = azurerm_windows_web_app.nfwebapp.dghefault__hostname
+  value = azurerm_windows_web_app.nfwebapp.default_hostname
 }
